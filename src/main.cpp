@@ -38,6 +38,7 @@ bool Controller1RightShoulderControlMotorsStopped = true;
 bool DrivetrainLNeedsToBeStopped_controller1 = true;
 bool DrivetrainRNeedsToBeStopped_controller1 = true;
 bool scrapperUp = true; // Variable to track the state of the scrapper
+
 int rc_auto_loop_function_controller1(){
   while(true){
     if(RemoteControlCodeEnabled){
@@ -144,6 +145,7 @@ void pre_auton(void) {
   middle.setStopping(brakeType::brake);
   top.setStopping(brakeType::brake);
   storage.setStopping(brakeType::brake);
+  Drivetrain.setTurnVelocity(50, percentUnits::pct); // Set the turn velocity of the drivetrain
 }
 
 /*---------------------------------------------------------------------------*/
