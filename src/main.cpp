@@ -24,11 +24,10 @@ motor motor4(PORT4,ratio18_1, true);
 motor motor5(PORT5, ratio18_1, true); // Motor on port 5 with 18:1 gear ratio
 motor motor6(PORT6, ratio18_1, true); // Motor on port 6 with 18:1 gear ratio
 motor_group rightdrive(motor4, motor5, motor6);
-motor intake(PORT7, false); // Intake motor on port 7 with 18:1 gear ratio
+motor intake(PORT7,ratio18_1, false); // Intake motor on port 7 with 18:1 gear ratio
 motor storage(PORT8, false); // Storage motor on port 8 with 18:1 gear ratio
-motor top(PORT9, false); // Top motor on port 9 with 18:1 gear ratio
-motor middle(PORT10, false); // Middle motor on port 10 with 18:1 gear ratio
-motor_group intakeGroup(intake, storage, top, middle); // Group for intake motors
+motor top(PORT9, false); // Top motor on port 9 with 18:1 gear ratio // Middle motor on port 10 with 18:1 gear ratio
+motor_group intakeGroup(intake, storage, top); // Group for intake motors
 digital_out scraper(Brain.ThreeWirePort.A);
 controller Controller1 = controller(primary); // Controller for user input
 drivetrain Drivetrain(leftdrive, rightdrive); // Drivetrain object using left and right motor groups
@@ -70,32 +69,27 @@ int rc_auto_loop_function_controller1(){
       }
       if(Controller1.ButtonR1.pressing()){
         intake.spin(fwd);
-        middle.spin(fwd);
         top.spin(fwd);
         storage.spin(fwd);
       } else if(Controller1.ButtonR2.pressing()){
         intake.spin(reverse);
-        middle.spin(reverse);
         top.spin(reverse);
         storage.spin(reverse);
       } else {
         intake.stop();
-        middle.stop();
         top.stop();
         storage.stop();
       }
       if(Controller1.ButtonL1.pressing()){
         storage.spin(reverse);
         top.spin(fwd);
-        middle.spin(fwd);
       }else if(Controller1.ButtonL2.pressing()){
         storage.spin(reverse);
         top.spin(reverse);
-        middle.spin(fwd);
+        intake.spin(forward);
       } else {
         storage.stop();
         top.stop();
-        middle.stop();
         intake.stop();
       }
       if(Controller1.ButtonUp.pressing()){
@@ -135,14 +129,12 @@ void pre_auton(void) {
   leftdrive.setVelocity(100, percentUnits::pct);
   rightdrive.setVelocity(100, percentUnits::pct);
   intake.setVelocity(100, percentUnits::pct);
-  middle.setVelocity(100, percentUnits::pct);
   top.setVelocity(100, percentUnits::pct);
   storage.setVelocity(100, percentUnits::pct);
   // Set the stopping mode of the motors
   leftdrive.setStopping(brakeType::brake);
   rightdrive.setStopping(brakeType::brake);
   intake.setStopping(brakeType::brake);
-  middle.setStopping(brakeType::brake);
   top.setStopping(brakeType::brake);
   storage.setStopping(brakeType::brake);
   Drivetrain.setTurnVelocity(50, percentUnits::pct); // Set the turn velocity of the drivetrain
@@ -170,7 +162,6 @@ void autonomous(void) {
   wait(1, seconds); // Wait for 1 second
   intakeGroup.stop(); // Stop the intake motors
   top.spin(fwd); // Start the top motor
-  middle.spin(fwd); // Start the middle motor
   storage.spin(reverse); // Start the storage motor
   wait(5, seconds);
   Drivetrain.driveFor(-25,inches); 
