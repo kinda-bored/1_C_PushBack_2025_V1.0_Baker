@@ -16,17 +16,17 @@ competition Competition;
 
 // define your global instances of motors and other devices here
 brain Brain;
-motor motor1 (PORT1, ratio18_1, false); // Motor on port 1 with 18:1 gear ratio
-motor motor2(PORT2, ratio18_1, false);  // Motor
-motor motor3(PORT3, ratio18_1, false); // Motor on port 3 with 18:1 gear ratio
+motor motor1 (PORT11, ratio18_1, false); // Motor on port 1 with 18:1 gear ratio
+motor motor2(PORT12, ratio18_1, false);  // Motor
+motor motor3(PORT13, ratio18_1, false); // Motor on port 3 with 18:1 gear ratio
 motor_group leftdrive(motor1, motor2, motor3);
-motor motor4(PORT4,ratio18_1, true); 
-motor motor5(PORT5, ratio18_1, true); // Motor on port 5 with 18:1 gear ratio
-motor motor6(PORT6, ratio18_1, true); // Motor on port 6 with 18:1 gear ratio
+motor motor4(PORT1,ratio18_1, true); 
+motor motor5(PORT2, ratio18_1, true); // Motor on port 5 with 18:1 gear ratio
+motor motor6(PORT3, ratio18_1, true); // Motor on port 6 with 18:1 gear ratio
 motor_group rightdrive(motor4, motor5, motor6);
-motor intake(PORT7,ratio18_1, false); // Intake motor on port 7 with 18:1 gear ratio
-motor storage(PORT8, false); // Storage motor on port 8 with 18:1 gear ratio
-motor top(PORT9, false); // Top motor on port 9 with 18:1 gear ratio // Middle motor on port 10 with 18:1 gear ratio
+motor intake(PORT9,ratio18_1, false); // Intake motor on port 7 with 18:1 gear ratio
+motor storage(PORT10, false); // Storage motor on port 8 with 18:1 gear ratio
+motor top(PORT8, false); // Top motor on port 9 with 18:1 gear ratio // Middle motor on port 10 with 18:1 gear ratio
 motor_group intakeGroup(intake, storage, top); // Group for intake motors
 digital_out scraper(Brain.ThreeWirePort.A);
 controller Controller1 = controller(primary); // Controller for user input
