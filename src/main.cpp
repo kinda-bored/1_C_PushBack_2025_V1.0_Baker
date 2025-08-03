@@ -40,8 +40,8 @@ void pre_auton(void) {
   scraper.set(true); // Set the scrapper to the up position
   scraperUp = true; // Initialize the scrapper state to up
   // Set the initial velocity of the motors
-  leftdrive.setVelocity(100, percentUnits::pct);
-  rightdrive.setVelocity(100, percentUnits::pct);
+  leftdrive.setVelocity(90, percentUnits::pct);
+  rightdrive.setVelocity(90, percentUnits::pct);
   intake.setVelocity(100, percentUnits::pct);
   top.setVelocity(100, percentUnits::pct);
   storage.setVelocity(100, percentUnits::pct);
