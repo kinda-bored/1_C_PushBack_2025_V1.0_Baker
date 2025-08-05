@@ -15,7 +15,8 @@ motor intake(PORT12,ratio18_1, false); // Intake motor on port 7 with 18:1 gear 
 motor storage(PORT13, false); // Storage motor on port 8 with 18:1 gear ratio
 motor top(PORT11, false); // Top motor on port 9 with 18:1 gear ratio // Middle motor on port 10 with 18:1 gear ratio
 motor_group intakeGroup(intake, storage, top); // Group for intake motors
-digital_out scraper(Brain.ThreeWirePort.A);
+digital_out scraper(Brain.ThreeWirePort.A); // Scraper motor on port A
+digital_out aligner(Brain.ThreeWirePort.B); // Aligner motor on port B
 controller Controller1 = controller(primary); // Controller for user input
 drivetrain Drivetrain(leftdrive, rightdrive); // Drivetrain object using left and right motor groups
 bool RemoteControlCodeEnabled = true; // A flag to control remote control code execution
@@ -25,6 +26,7 @@ bool DrivetrainLNeedsToBeStopped_controller1 = true;
 bool DrivetrainRNeedsToBeStopped_controller1 = true;
 bool scrapperUp = true; // Variable to track the state of the scrapper
 double turnSpeed = 0.5; // Default turn speed for the drivetrain
+bool alignerUp = true; // Variable to track the state of the aligner
 
 int rc_auto_loop_function_controller1(){
   while(true){
@@ -67,6 +69,7 @@ int rc_auto_loop_function_controller1(){
         storage.spin(fwd, 80, percentUnits::pct);
         top.spin(reverse, 80, percentUnits::pct);
         intake.spin(reverse, 80, percentUnits::pct);
+        aligner.set(false); 
       } else if(Controller1.ButtonL2.pressing()){
         intake.spin(fwd, 80, percentUnits::pct);
         top.spin(fwd, 80, percentUnits::pct);
@@ -76,18 +79,10 @@ int rc_auto_loop_function_controller1(){
         top.stop(hold);
         storage.stop(hold);
       }
-      if(Controller1.ButtonA.pressing()){
-        if(scrapperUp){
-          scraper.set(true);
-          scrapperUp = false;
-        } else {
-          scraper.set(false);
-          scrapperUp = true;
-        }
-      }
       if(Controller1.ButtonDown.PRESSED){
         scraper.set(false);
         scrapperUp = false;
+        aligner.set(true); 
       } else if(Controller1.ButtonUp.PRESSED){
         scraper.set(true);
         scrapperUp = true;

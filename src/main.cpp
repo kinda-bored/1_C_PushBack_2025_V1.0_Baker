@@ -67,18 +67,20 @@ void pre_auton(void) {
 void autonomous(void) {
   
   intakeGroup.spin(fwd); // Start the intake motors
-  Drivetrain.driveFor(25,inches, 90, rpm); // Drive forward at 50% speed
+  Drivetrain.driveFor(25,inches, 160, rpm); // Drive forward at 50% speed
   wait(1, seconds); // Wait for 1 second
-  Drivetrain.turnFor(turnType::right, 90, degrees); // Turn right 90 degrees
-  Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
-  Drivetrain.turnFor(turnType::left, 90, degrees); // Turn left 90 degrees
-  Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
-  wait(1, seconds); // Wait for 1 second
+  Drivetrain.turnFor(turnType::right, 120, degrees); // Turn right 90 degrees
+  scraper.set(false); // Lower the scraper
+  Drivetrain.driveFor(25,inches); // Drive forward at 50% speedemmaurrrr
+  wait(2, seconds); // Wait for 1 second
   intakeGroup.stop(); // Stop the intake motors
-  top.spin(fwd); // Start the top motor
-  storage.spin(reverse); // Start the storage motor
-  wait(5, seconds);
-  Drivetrain.driveFor(-25,inches); 
+  Drivetrain.driveFor(-25,inches); // Drive backward at 50% speed
+  Drivetrain.turnFor(turnType::left, 180, degrees); // Turn left 90 degrees
+  Drivetrain.driveFor(15,inches); // Drive forward at 50% speed
+  storage.spin(fwd, 80, percentUnits::pct); // Start the storage motor
+  top.spin(fwd, 80, percentUnits::pct); // Start the top motor
+  intake.spin(fwd, 80, percentUnits::pct); // Start the intake motor
+  wait(4, seconds); // Wait for 2 seconds to allow the intake to collect
   
 }
 
