@@ -40,18 +40,34 @@ void pre_auton(void) {
   scraper.set(true); // Set the scrapper to the up position
   scraperUp = true; // Initialize the scrapper state to up
   // Set the initial velocity of the motors
-  leftdrive.setVelocity(90, percentUnits::pct);
-  rightdrive.setVelocity(90, percentUnits::pct);
-  intake.setVelocity(100, percentUnits::pct);
-  top.setVelocity(100, percentUnits::pct);
-  storage.setVelocity(100, percentUnits::pct);
-  // Set the stopping mode of the motors
-  leftdrive.setStopping(brakeType::brake);
-  rightdrive.setStopping(brakeType::brake);
-  intake.setStopping(brakeType::brake);
-  top.setStopping(brakeType::brake);
-  storage.setStopping(brakeType::brake);
-  Drivetrain.setTurnVelocity(50, percentUnits::pct); // Set the turn velocity of the drivetrain
+
+  // making the options for auton left or right
+  Brain.Screen.setPenColor(black);
+  Brain.Screen.setFillColor(red);
+  Brain.Screen.drawRectangle(10, 10, 230, 220);
+  Brain.Screen.setCursor(6, 12);
+  Brain.Screen.print("left auton");
+  Brain.Screen.setFillColor(blue);
+  Brain.Screen.drawRectangle(240, 10, 230, 220);
+  Brain.Screen.setCursor(6, 36);
+  Brain.Screen.print("right auton");
+  while (true){
+    waitUntil(Brain.Screen.pressing());
+    if (Brain.Screen.xPosition() < 240.0) {
+      Brain.Screen.setFillColor(white);
+      Brain.Screen.drawRectangle(0, 0, 480, 240);
+      Brain.Screen.print("right auton selcted");
+      auton = 1.0;
+      } else {
+        Brain.Screen.setFillColor(white);
+        Brain.Screen.drawRectangle(0, 0, 480, 240);
+        Brain.Screen.print("left auton selcted");
+        auton = 2.0;
+      } 
+      wait(5 ,seconds);
+    wait(5, msec); // Wait for 5 milliseconds to prevent rapid looping
+  }
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -65,22 +81,47 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
+  if (auton == 1.0){
+    intakeGroup.spin(fwd,80, percentUnits::pct); // Start the intake motors
+    Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
+    wait(1, seconds); // Wait for 1 second
+    Drivetrain.turnFor(turnType::right, 120, degrees); // Turn right 90 degrees
+    scraper.set(false); // Lower the scraper
+    Drivetrain.driveFor(25,inches); // Drive forward at 50% speedemmaurrrr
+    wait(2, seconds); // Wait for 1 second
+    intakeGroup.stop(); // Stop the intake motors
+    Drivetrain.driveFor(-10,inches); // Drive backward at 50% speed
+    Drivetrain.turnFor(turnType::left, 180, degrees); // Turn left 90 degrees
+    aligner.set(false); 
+    Drivetrain.driveFor(15,inches); // Drive forward at 50% speed
+    storage.spin(fwd, 80, percentUnits::pct); // Start the storage motor
+    top.spin(reverse, 80, percentUnits::pct); // Start the top motor
+    intake.spin(reverse, 80, percentUnits::pct); // Start the intake motor
+    wait(4, seconds); // Wait for 2 seconds to allow the intake to collect
+  }else if (auton == 2.0){
+    intakeGroup.spin(fwd,80, percentUnits::pct); // Start the intake motors
+    Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
+    wait(1, seconds); // Wait for 1 second
+    Drivetrain.turnFor(turnType::left, 120, degrees); // Turn right 90 degrees
+    scraper.set(false); // Lower the scraper
+    Drivetrain.driveFor(25,inches); // Drive forward at 50% speedemmaurrrr
+    wait(2, seconds); // Wait for 1 second
+    intakeGroup.stop(); // Stop the intake motors
+    Drivetrain.driveFor(-10,inches); // Drive backward at 50% speed
+    Drivetrain.turnFor(turnType::right, 180, degrees); // Turn left 90 degrees
+    aligner.set(false); 
+    Drivetrain.driveFor(15,inches); // Drive forward at 50% speed
+    storage.spin(fwd, 80, percentUnits::pct); // Start the storage motor
+    top.spin(reverse, 80, percentUnits::pct); // Start the top motor
+    intake.spin(reverse, 80, percentUnits::pct); // Start the intake motor
+    wait(4, seconds); // Wait for 2 seconds to allow the intake to collect
+  }else if(auton == 0.0){
+    intakeGroup.spin(fwd,80, percentUnits::pct); // Start the intake motors
+    Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
+  }
   
-  intakeGroup.spin(fwd); // Start the intake motors
-  Drivetrain.driveFor(25,inches, 160, rpm); // Drive forward at 50% speed
-  wait(1, seconds); // Wait for 1 second
-  Drivetrain.turnFor(turnType::right, 120, degrees); // Turn right 90 degrees
-  scraper.set(false); // Lower the scraper
-  Drivetrain.driveFor(25,inches); // Drive forward at 50% speedemmaurrrr
-  wait(2, seconds); // Wait for 1 second
-  intakeGroup.stop(); // Stop the intake motors
-  Drivetrain.driveFor(-25,inches); // Drive backward at 50% speed
-  Drivetrain.turnFor(turnType::left, 180, degrees); // Turn left 90 degrees
-  Drivetrain.driveFor(15,inches); // Drive forward at 50% speed
-  storage.spin(fwd, 80, percentUnits::pct); // Start the storage motor
-  top.spin(fwd, 80, percentUnits::pct); // Start the top motor
-  intake.spin(fwd, 80, percentUnits::pct); // Start the intake motor
-  wait(4, seconds); // Wait for 2 seconds to allow the intake to collect
+ 
+  
   
 }
 

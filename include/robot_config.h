@@ -12,6 +12,10 @@ extern digital_out scraper;
 extern bool scraperUp;
 extern bool alignerUp;
 extern digital_out aligner;
+extern float auton;
+extern int Brain_precision = 0, Console_precision = 0;
+
+
 void vexcodeInit( void );
   // nothing to do here
 

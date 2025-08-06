@@ -3,22 +3,22 @@
 using namespace vex;
 
 brain Brain;
-motor motor1 (PORT18, ratio18_1, false); // Motor on port 1 with 18:1 gear ratio
-motor motor2(PORT19, ratio18_1, true);  // Motor
-motor motor3(PORT20, ratio18_1, false); // Motor on port 3 with 18:1 gear ratio
-motor_group leftdrive(motor1, motor2, motor3);
-motor motor4(PORT1,ratio18_1, true); 
-motor motor5(PORT2, ratio18_1, false); // Motor on port 5 with 18:1 gear ratio
-motor motor6(PORT3, ratio18_1, true); // Motor on port 6 with 18:1 gear ratio
-motor_group rightdrive(motor4, motor5, motor6);
-motor intake(PORT12,ratio18_1, false); // Intake motor on port 7 with 18:1 gear ratio
-motor storage(PORT13, false); // Storage motor on port 8 with 18:1 gear ratio
-motor top(PORT11, false); // Top motor on port 9 with 18:1 gear ratio // Middle motor on port 10 with 18:1 gear ratio
-motor_group intakeGroup(intake, storage, top); // Group for intake motors
-digital_out scraper(Brain.ThreeWirePort.A); // Scraper motor on port A
-digital_out aligner(Brain.ThreeWirePort.B); // Aligner motor on port B
+motor motor1 = motor(PORT18, ratio18_1, false); // Motor on port 1 with 18:1 gear ratio
+motor motor2 = motor(PORT19, ratio18_1, true);  // Motor
+motor motor3 = motor(PORT20, ratio18_1, false); // Motor on port 3 with 18:1 gear ratio
+motor_group leftdrive = motor_group(motor1, motor2, motor3);
+motor motor4 = motor(PORT1,ratio18_1, true); 
+motor motor5 = motor(PORT2, ratio18_1, false); // Motor on port 5 with 18:1 gear ratio
+motor motor6 = motor(PORT3, ratio18_1, true); // Motor on port 6 with 18:1 gear ratio
+motor_group rightdrive = motor_group(motor4, motor5, motor6);
+motor intake = motor(PORT12,ratio18_1, false); // Intake motor on port 7 with 18:1 gear ratio
+motor storage = motor(PORT13, false); // Storage motor on port 8 with 18:1 gear ratio
+motor top = motor(PORT11, false); // Top motor on port 9 with 18:1 gear ratio // Middle motor on port 10 with 18:1 gear ratio
+motor_group intakeGroup = motor_group(intake, storage, top); // Group for intake motors
+digital_out scraper = digital_out(Brain.ThreeWirePort.A); // Scraper motor on port A
+digital_out aligner = digital_out(Brain.ThreeWirePort.B); // Aligner motor on port B
 controller Controller1 = controller(primary); // Controller for user input
-drivetrain Drivetrain(leftdrive, rightdrive); // Drivetrain object using left and right motor groups
+drivetrain Drivetrain = drivetrain(leftdrive, rightdrive); // Drivetrain object using left and right motor groups
 bool RemoteControlCodeEnabled = true; // A flag to control remote control code execution
 bool Controller1LeftShoulderControlMotorsStopped = true;
 bool Controller1RightShoulderControlMotorsStopped = true;
@@ -27,6 +27,8 @@ bool DrivetrainRNeedsToBeStopped_controller1 = true;
 bool scrapperUp = true; // Variable to track the state of the scrapper
 double turnSpeed = 0.5; // Default turn speed for the drivetrain
 bool alignerUp = true; // Variable to track the state of the aligner
+int Brain_precision = 0, Console_precision = 0;
+float  auton;
 
 int rc_auto_loop_function_controller1(){
   while(true){
@@ -86,6 +88,15 @@ int rc_auto_loop_function_controller1(){
       } else if(Controller1.ButtonUp.PRESSED){
         scraper.set(true);
         scrapperUp = true;
+      }
+      if(Controller1.ButtonA.PRESSED){
+        if(alignerUp){
+          aligner.set(false);
+          alignerUp = false;
+        } else  if (Controller1.ButtonB.PRESSED){
+          aligner.set(true);
+          alignerUp = true;
+        }
       }
     }
     wait(20, msec); // Wait for 20 milliseconds to prevent CPU overload
