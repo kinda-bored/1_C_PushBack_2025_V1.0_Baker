@@ -9,6 +9,8 @@
 
 #include "vex.h"
 #include "robot_config.h"
+#include "auton.h"
+#include "auton_selector.h"
 
 using namespace vex;
 
@@ -40,6 +42,7 @@ void pre_auton(void) {
   scraper.set(true); // Set the scrapper to the up position
   scraperUp = true; // Initialize the scrapper state to up
   // Set the initial velocity of the motors
+<<<<<<< HEAD
 
   // making the options for auton left or right
   auton = 0.0; // Initialize auton variable to 0 (no selection)
@@ -68,6 +71,9 @@ void pre_auton(void) {
       wait(5 ,seconds);
     wait(5, msec); // Wait for 5 milliseconds to prevent rapid looping
   }
+=======
+  autonSelector();
+>>>>>>> 6ec3d64 (Initial commit of paging everything project)
 
 }
 
@@ -82,41 +88,26 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  if (auton == 1.0){
-    intakeGroup.spin(fwd,80, percentUnits::pct); // Start the intake motors
-    Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
-    wait(1, seconds); // Wait for 1 second
-    Drivetrain.turnFor(turnType::right, 120, degrees); // Turn right 90 degrees
-    scraper.set(false); // Lower the scraper
-    Drivetrain.driveFor(25,inches); // Drive forward at 50% speedemmaurrrr
-    wait(2, seconds); // Wait for 1 second
-    intakeGroup.stop(); // Stop the intake motors
-    Drivetrain.driveFor(-10,inches); // Drive backward at 50% speed
-    Drivetrain.turnFor(turnType::left, 180, degrees); // Turn left 90 degrees
-    aligner.set(false); 
-    Drivetrain.driveFor(15,inches); // Drive forward at 50% speed
-    storage.spin(fwd, 80, percentUnits::pct); // Start the storage motor
-    top.spin(reverse, 80, percentUnits::pct); // Start the top motor
-    intake.spin(reverse, 80, percentUnits::pct); // Start the intake motor
-    wait(4, seconds); // Wait for 2 seconds to allow the intake to collect
-  }else if (auton == 2.0){
-    intakeGroup.spin(fwd,80, percentUnits::pct); // Start the intake motors
-    Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
-    wait(1, seconds); // Wait for 1 second
-    Drivetrain.turnFor(turnType::left, 120, degrees); // Turn right 90 degrees
-    scraper.set(false); // Lower the scraper
-    Drivetrain.driveFor(25,inches); // Drive forward at 50% speedemmaurrrr
-    wait(2, seconds); // Wait for 1 second
-    intakeGroup.stop(); // Stop the intake motors
-    Drivetrain.driveFor(-10,inches); // Drive backward at 50% speed
-    Drivetrain.turnFor(turnType::right, 180, degrees); // Turn left 90 degrees
-    aligner.set(false); 
-    Drivetrain.driveFor(15,inches); // Drive forward at 50% speed
-    storage.spin(fwd, 80, percentUnits::pct); // Start the storage motor
-    top.spin(reverse, 80, percentUnits::pct); // Start the top motor
-    intake.spin(reverse, 80, percentUnits::pct); // Start the intake motor
-    wait(4, seconds); // Wait for 2 seconds to allow the intake to collect
-  }else if(auton == 0.0){
+  if (auton == 1.0) {
+    auton_left();
+  } else if (auton == 1.1) {
+    auton_left_match_loader();
+  } else if (auton == 1.2) {
+    auton_left_center_goal();
+  } else if (auton == 1.3) {
+    auton_left_side_goal();
+  } else if (auton == 2.0) {
+    auton_right();
+  } else if (auton == 2.1) {
+    auton_right_match_loader();
+  } else if (auton == 2.2) {
+    auton_right_center_goal();
+  } else if (auton == 2.3) {
+    auton_right_side_goal();
+  } else if (auton == 3.0) {
+    auton_skill();
+  } else {
+    // Default/fallback autonomous
     intakeGroup.spin(fwd,80, percentUnits::pct); // Start the intake motors
     Drivetrain.driveFor(25,inches); // Drive forward at 50% speed
   }

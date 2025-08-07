@@ -19,6 +19,8 @@ digital_out scraper = digital_out(Brain.ThreeWirePort.A); // Scraper motor on po
 digital_out aligner = digital_out(Brain.ThreeWirePort.B); // Aligner motor on port B
 controller Controller1 = controller(primary); // Controller for user input
 drivetrain Drivetrain = drivetrain(leftdrive, rightdrive); // Drivetrain object using left and right motor groups
+
+
 bool RemoteControlCodeEnabled = true; // A flag to control remote control code execution
 bool Controller1LeftShoulderControlMotorsStopped = true;
 bool Controller1RightShoulderControlMotorsStopped = true;
