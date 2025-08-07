@@ -20,7 +20,7 @@ competition Competition;
 
 
 
-
+// test
 
 
 
@@ -43,7 +43,7 @@ void pre_auton(void) {
 
   // making the options for auton left or right
   auton = 0.0; // Initialize auton variable to 0 (no selection)
-  Brain.Screen.setPenColor(black);
+  Brain.Screen.setPenColor(blue);
   Brain.Screen.setFillColor(red);
   Brain.Screen.drawRectangle(10, 10, 230, 220);
   Brain.Screen.setCursor(6, 12);
