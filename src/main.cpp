@@ -42,6 +42,7 @@ void pre_auton(void) {
   // Set the initial velocity of the motors
 
   // making the options for auton left or right
+  auton = 0.0; // Initialize auton variable to 0 (no selection)
   Brain.Screen.setPenColor(black);
   Brain.Screen.setFillColor(red);
   Brain.Screen.drawRectangle(10, 10, 230, 220);
