@@ -42,38 +42,9 @@ void pre_auton(void) {
   scraper.set(true); // Set the scrapper to the up position
   scraperUp = true; // Initialize the scrapper state to up
   // Set the initial velocity of the motors
-<<<<<<< HEAD
-
+  autonSelector(); // Show the autonomous selection menu
   // making the options for auton left or right
-  auton = 0.0; // Initialize auton variable to 0 (no selection)
-  Brain.Screen.setPenColor(blue);
-  Brain.Screen.setFillColor(red);
-  Brain.Screen.drawRectangle(10, 10, 230, 220);
-  Brain.Screen.setCursor(6, 12);
-  Brain.Screen.print("left auton");
-  Brain.Screen.setFillColor(blue);
-  Brain.Screen.drawRectangle(240, 10, 230, 220);
-  Brain.Screen.setCursor(6, 36);
-  Brain.Screen.print("right auton");
-  while (true){
-    waitUntil(Brain.Screen.pressing());
-    if (Brain.Screen.xPosition() < 240.0) {
-      Brain.Screen.setFillColor(white);
-      Brain.Screen.drawRectangle(0, 0, 480, 240);
-      Brain.Screen.print("right auton selcted");
-      auton = 1.0;
-      } else {
-        Brain.Screen.setFillColor(white);
-        Brain.Screen.drawRectangle(0, 0, 480, 240);
-        Brain.Screen.print("left auton selcted");
-        auton = 2.0;
-      } 
-      wait(5 ,seconds);
-    wait(5, msec); // Wait for 5 milliseconds to prevent rapid looping
-  }
-=======
-  autonSelector();
->>>>>>> 6ec3d64 (Initial commit of paging everything project)
+
 
 }
 
